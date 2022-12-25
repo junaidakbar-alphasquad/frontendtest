@@ -1,34 +1,46 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const base = process.env.NEXT_PUBLIC_BASE_URL;
-console.log(base)
+const base = 'http://localhost:5000/'
 const dataApiSlice = createApi({
-    reducerPath: "api",
-    baseQuery: fetchBaseQuery({
-        baseUrl: base,
-        prepareHeaders: (headers) => {
-            headers.set('authorization', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjpbeyJpZCI6MSwiZW1haWwiOiJtYWlsQG1haWwuY29tIiwibmFtZSI6Im5ldyBuYW1lIiwic3RhdHVzIjp0cnVlfSx7ImlkIjoyLCJlbWFpbCI6Im1haWxAbWFpbC5jb20iLCJuYW1lIjoibmV3IG5hbWUgMTIzIiwic3RhdHVzIjp0cnVlfV0sImlhdCI6MTY3MTc4NzE3NSwiZXhwIjoxNjcxNzkwNzc1fQ.L7ywTFZyzlEN1h2uVV9NHwqS1VbxUEcFzBiGu_Vzzqc')
-            console.log(headers)
-            return headers
-        }
+  reducerPath: "api",
+  baseQuery: fetchBaseQuery({
+    baseUrl: base,
+    prepareHeaders: (headers,{getState}) => {
+let token=getState().dataSlice.token
+let token2=sessionStorage.getItem('token')
+      headers.set("authorization", token?token:token2||'');
+      console.log(getState().dataSlice);
+      return headers;
+    },
+  }),
+  endpoints: (builder) => ({
+    getUsers: builder.query({
+      query: () => "/api/users",
     }),
-    endpoints: builder => ({
-        getUsers: builder.query({
-            query: () => "/users",
-        }),
-        getUser: builder.query({
-            query: id => `/user/${id}`,
-        }),
-        getPosts: builder.query({
-            query: () => "/posts/",
-        }),
-        getPost: builder.query({
-            query: id => `/post/${id}`,
-        }),
-    })
-})
+    getUser: builder.query({
+      query: (id) => `/api/user/${id}`,
+    }),
+    getPosts: builder.query({
+      query: () => "/api/posts/",
+    }),
+    getPost: builder.query({
+      query: (id) => `/api/post/${id}`,
+    }),
+    login: builder.mutation({
+      query: (body) => ({
+        url: "/login",
+        method: "POST",
+        body,
+      }),
+    }),
+  }),
+});
 export const {
-    useGetUserQuery, useGetUsersQuery, useGetPostQuery, useGetPostsQuery
-} = dataApiSlice
+  useLoginMutation,
+  useGetUserQuery,
+  useGetUsersQuery,
+  useGetPostQuery,
+  useGetPostsQuery,
+} = dataApiSlice;
 
 export default dataApiSlice;

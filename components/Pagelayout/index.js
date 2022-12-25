@@ -1,20 +1,17 @@
-import React from 'react'
-import Header from './Header'
-import Sidebar from './Sidebar'
+import React from "react";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
 
-const index = () => {
+const index = ({children}) => {
+  return (
+    <>
+      <Header />
+      <Sidebar />
+      <main className="ml-[200px] mt-10">
+        {children}
+      </main>
+    </>
+  );
+};
 
-    return (
-        <>
-
-            <Header />
-            <div className='w-[200px] fixed left-0'>
-
-                <Sidebar />
-            </div>
-        </>
-    )
-
-}
-
-export default index
+export default index;

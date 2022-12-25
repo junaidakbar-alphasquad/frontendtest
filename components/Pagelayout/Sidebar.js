@@ -8,7 +8,7 @@ const Sidebar = () => {
         { name: 'menu4', id: 4 },
     ]
     return (
-        <div>
+        <div className='w-[200px] fixed left-0 top-0'>
             <div className='w-full h-10 pt-2 flex justify-center'>image logo</div>
             <ul className='flex flex-col gap-2'>
                 {

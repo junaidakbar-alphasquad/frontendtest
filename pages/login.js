@@ -1,9 +1,11 @@
 import React from 'react'
+import LoginFrame from '../components/LoginFrame'
 
-export const login = () => {
+const login = () => {
   return (
-    <div>
-        
-    </div>
+    <LoginFrame/>
+
   )
 }
+
+export default login
